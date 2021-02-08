@@ -1,10 +1,10 @@
-package modifier.access1;
+package clazz;
 
 /**
  * 同级类测试
  * ABC可以被同包下的其他类访问
  */
-public class TestSameLevelClasses {
+public class SameLevelClasses {
 
 }
 // 无修饰符
