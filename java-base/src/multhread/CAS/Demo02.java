@@ -1,27 +1,29 @@
-package cas;
+package multhread.CAS;
 
 import java.util.concurrent.CountDownLatch;
 
-public class Demo03 {
-    public volatile static int count = 0;
+/**
+ *   1.A=count
+ *   2.B=A+1
+ *   3.count=B
+ * 为了解决Demo01中的问题，可以将request()加锁处理
+ * 这样将123步串行处理
+ * 效率太低，并行没有意义
+ */
+public class Demo02 {
+
+    public static int count = 0;
 
     public static int threadSize = 100;
 
     public static CountDownLatch countDownLatch = new CountDownLatch(threadSize);
 
-    public static void request() throws InterruptedException {
+    public static synchronized void request() throws InterruptedException {
 
         Thread.sleep(5);
 
-        while(!cas(count ,count + 1));
+        count++;
 
-    }
-    public static synchronized boolean cas(int expectCount , int newCount){
-        if(expectCount == count){
-            count = newCount;
-            return true;
-        }
-        return false;
     }
     public static void main(String[] args) throws InterruptedException {
         long start = System.currentTimeMillis();
