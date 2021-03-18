@@ -1,31 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.example</groupId>
+    <groupId>com.ssm</groupId>
     <artifactId>java-ssm</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging><!-- 打成war包 -->
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <!-- spring版本号 -->
-        <spring.version>4.3.19.RELEASE</spring.version>
-        <log4j.version>2.11.1</log4j.version>
+        <!-- 依赖版本、配置 -->
+        <spring.version>5.2.2.RELEASE</spring.version>
+        <mybatis.version>3.5.3</mybatis.version>
+        <mybatis-spring.version>1.3.2</mybatis-spring.version>
+        <mysql-connector.version>5.1.40</mysql-connector.version>
+        <junit.version>4.9</junit.version>
+        <druid.version>1.1.10</druid.version>
+        <servlet-api.version>3.1.0</servlet-api.version>
+        <slf4j.version>1.7.5</slf4j.version>
+        <lombok.version>1.18.10</lombok.version>
+        <jackson-databind.version>2.9.10.1</jackson-databind.version>
+        <shiro.version>1.3.2</shiro.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-fileupload.version>1.4</commons-fileupload.version>
+        <commons-io.version>2.6</commons-io.version>
+        <json.version>1.2.51</json.version>
+        <!-- 插件版本、配置 -->
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
+        <jdk.version>1.8</jdk.version>
+        <encoding>utf-8</encoding>
     </properties>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <env>prod</env>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
-        <!--spring相关依赖start-->
 
-        <!--spring核心-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
+        <!-- 一、spring相关依赖 -->
+        <!-- 1.1 spring核心 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -36,7 +62,12 @@
             <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        <!-- Spring DAO层 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- 1.2 spring dao层 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
@@ -47,7 +78,7 @@
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        <!--Spring web-->
+        <!-- 1.3 spring web层 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
@@ -58,112 +89,152 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <!--spring相关依赖end-->
-
-        <!-- 数据库start -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
-        </dependency>
-        <!-- 数据库 end-->
-
-        <!--连接池start-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.1.11</version>
-        </dependency>
-        <!--连接池end-->
-
-        <!--mybatis start-->
+        <!-- 二、mybatis与数据库相关依赖 -->
+        <!-- 2.1 mybatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.4.6</version>
+            <version>${mybatis.version}</version>
         </dependency>
+        <!-- 2.2 spring mybatis整合 -->
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.3.2</version>
+            <version>${mybatis-spring.version}</version>
         </dependency>
-
+        <!-- 2.3 mysql驱动 -->
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.8.13</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
         </dependency>
-
+        <!-- 2.4 druid连接池 -->
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.8.13</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
         </dependency>
-
-        <!--mybatis end-->
-
-        <!--hibernate验证器-->
+        <!-- 三、servlet相关依赖 -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>5.4.2.Final</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- 四、单元测试junit+spring-test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- 五、日志slf4j 使用log4j12实现 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
-        <!--fastjson-->
+
+        <!-- 六、其他工具 -->
+        <!-- 6.1 对象与json的转换 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.1.40</version>
+            <version>${json.version}</version>
         </dependency>
-
-        <!--log4j-->
+        <!-- 6.2 lombok -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-
-        <!--文件上传-->
+        <!-- spring上传文件相关 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.3</version>
+            <version>${commons-fileupload.version}</version>
         </dependency>
-
-        <!--分页-->
         <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.0.4</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <!-- 七、shiro -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-quartz</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
         </dependency>
     </dependencies>
 
 
-
+    <build>
+        <!-- 编译插件 -->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${encoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- tomcat插件 -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat7-maven-plugin.version}</version>
+                <!--控制tomcat端口号 -->
+                <configuration>
+                    <port>8081</port>
+                    <path>/</path>
+                    <uriEncoding>${encoding}</uriEncoding>
+                    <finalName>java-ssm</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+        <!-- 打包后的名字 -->
+        <finalName>java-ssm</finalName>
+    </build>
 </project>
+
+
