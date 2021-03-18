@@ -1,5 +1,7 @@
 package multhread.DCL;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 public class DCLTest {
 
     // 对象需要加volatile
