@@ -1,6 +1,9 @@
 package com.ssm.leaning.reflect;
 
 
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +12,7 @@ import java.lang.reflect.Method;
 /**
  * 获得Class对象
  */
+@NoArgsConstructor
 public class GetClassTest {
 
     class User{
@@ -106,6 +110,9 @@ public class GetClassTest {
         constructor = clazz1.getConstructor(GetClassTest.class,String.class,int.class,String.class);
         User user2 = (User) constructor.newInstance(new GetClassTest(),"小明", 1, "xm");
         System.out.println(user2);
+        // 如果是无参构造，可以直接用Class.newInstance()创建
+        Class<GetClassTest> getClassTestClass = GetClassTest.class;
+        getClassTestClass.newInstance();
 
 
         System.out.println("----------4-方法-执行方法----------");
