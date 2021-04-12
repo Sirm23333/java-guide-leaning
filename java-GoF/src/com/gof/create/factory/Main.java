@@ -1,7 +1,7 @@
-package com.gof.factory;
+package com.gof.create.factory;
 
-import com.gof.factory.factory.LoggerFactory;
-import com.gof.factory.product.Logger;
+import com.gof.create.factory.factory.LoggerFactory;
+import com.gof.create.factory.product.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;

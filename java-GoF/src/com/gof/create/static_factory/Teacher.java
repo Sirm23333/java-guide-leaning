@@ -1,4 +1,4 @@
-package com.gof.static_factory;
+package com.gof.create.static_factory;
 
 public class Teacher extends Person {
     @Override

@@ -1,4 +1,4 @@
-package com.gof.factory.product;
+package com.gof.create.factory.product;
 
 public abstract class Logger {
     public abstract void loggerWriter();

@@ -1,7 +1,7 @@
-package com.gof.factory.factory;
+package com.gof.create.factory.factory;
 
-import com.gof.factory.product.DatabaseLogger;
-import com.gof.factory.product.Logger;
+import com.gof.create.factory.product.DatabaseLogger;
+import com.gof.create.factory.product.Logger;
 
 public class DatabaseLoggerFactory implements LoggerFactory {
     @Override

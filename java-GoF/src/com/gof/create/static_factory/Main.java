@@ -1,4 +1,4 @@
-package com.gof.static_factory;
+package com.gof.create.static_factory;
 
 /**
  * 简单工厂模式，也叫静态工厂模式

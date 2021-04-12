@@ -1,4 +1,4 @@
-package com.gof.factory.product;
+package com.gof.create.factory.product;
 
 public class DatabaseLogger extends Logger {
     @Override
